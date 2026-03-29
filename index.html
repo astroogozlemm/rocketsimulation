@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroStore</title>
+
+  <style>
+    body {margin:0;font-family:Arial;background:#fff;color:#202124;}
+
+    /* HEADER */
+    .header {
+      padding:12px 16px;
+      font-size:20px;
+      font-weight:bold;
+      border-bottom:1px solid #eee;
+      display:flex;
+      align-items:center;
+      justify-content:center; /* ORTALADIK */
+      position:sticky; top:0; background:#fff; z-index:10;
+    }
+
+    .menu {
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding:10px 12px;
+      border-bottom:1px solid #eee;
+    }
+
+    .menu button {
+      border:none;
+      background:#f1f5f9;
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .menu button.active {
+      background:#1a73e8;
+      color:white;
+    }
+
+    .container {padding:12px;}
+
+    .app-row {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border-radius:14px;
+      margin-bottom:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .app-logo {
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background:#f1f5f9;
+    }
+
+    .app-info {flex:1;}
+
+    .app-title {font-size:15px;font-weight:600;}
+    .app-desc {font-size:12px;color:#5f6368;margin-top:3px;}
+
+    .install-btn {
+      background:#1a73e8;
+      color:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    .disabled-btn {
+      background:#e5e7eb;
+      color:#6b7280;
+      border:none;
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:13px;
+    }
+
+    .count {font-size:12px;color:#5f6368;margin-top:4px;}
+
+    .footer {text-align:center;font-size:12px;color:#9aa0a6;margin-top:30px;}
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">🚀 AstroStore</div>
+
+<!-- MENU -->
+<div class="menu">
+  <button class="active" onclick="filterApps('all', this)">Tümü</button>
+  <button onclick="filterApps('game', this)">Oyunlar</button>
+  <button onclick="filterApps('app', this)">Uygulamalar</button>
+  <button onclick="filterApps('popular', this)">Popüler</button>
+  <button onclick="filterApps('new', this)">Yeni</button>
+</div>
+
+<div class="container">
+
+  <!-- OYUN -->
+  <div class="app-row" data-type="game popular">
+    <img class="app-logo" src="https://i.ibb.co/1tk56Cs8/idlerocket-logo.png">
+
+    <div class="app-info">
+      <div class="app-title">Rocket Simülasyonu</div>
+      <div class="app-desc">Sürüm v0.7 • Roket simülasyonu 🚀</div>
+      <div class="count" id="count1">İndirme: 0</div>
+    </div>
+
+    <button class="install-btn" onclick="indir()">Yükle</button>
+  </div>
+
+  <!-- YAKINDA -->
+  <div class="app-row" data-type="app new">
+    <div class="app-logo"></div>
+
+    <div class="app-info">
+      <div class="app-title">Yakında</div>
+      <div class="app-desc">Yeni uygulama eklenecek...</div>
+    </div>
+
+    <button class="disabled-btn">Yakında</button>
+  </div>
+
+  <div class="footer">© 2026 AstroStore</div>
+
+</div>
+
+<script>
+  // Sayaç
+  let count = localStorage.getItem("count1") || 0;
+  document.getElementById("count1").innerText = "İndirme: " + count;
+
+  function indir(){
+    count++;
+    localStorage.setItem("count1", count);
+    document.getElementById("count1").innerText = "İndirme: " + count;
+    window.location.href = "https://drive.google.com/uc?id=1WN57CmUaDY9nXrkmmeFf9nqC7uHUo822&export=download";
+  }
+
+  // FİLTRE SİSTEMİ
+  function filterApps(type, btn) {
+    // aktif buton
+    document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const apps = document.querySelectorAll('.app-row');
+
+    apps.forEach(app => {
+      if (type === 'all') {
+        app.style.display = 'flex';
+      } else {
+        if (app.dataset.type.includes(type)) {
+          app.style.display = 'flex';
+        } else {
+          app.style.display = 'none';
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
